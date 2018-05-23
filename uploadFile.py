@@ -13,7 +13,7 @@ from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 #fdagdafgdafgad
 # import vgg16
-import numpy as np
+import numpy as np  
 from numpy import *
 # import os
 import re
