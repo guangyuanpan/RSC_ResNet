@@ -1,0 +1,4 @@
+*.h5
+/.git
+/.ipynb_checkpoints
+/__pycache__
