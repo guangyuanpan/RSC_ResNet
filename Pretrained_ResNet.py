@@ -13,24 +13,20 @@ from tensorflow.python.keras.layers import Dropout, Flatten, Dense
 from keras.callbacks import Callback,TensorBoard
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-
 # import vgg16
 import numpy as np
 from numpy import *
-
 import re
 import sys
 import random
 import cv2
 import scipy
 
-
 def img_cate(filename):
     img_width, img_height = 224, 224
 
-    # build the VGG16 network
+    # build the network
     base_model = applications.resnet50.ResNet50(include_top=False, weights='imagenet', input_shape=(224,224,3))
-    print('Model loaded.')
 
     # build a classifier model to put on top of the convolutional model
     top_model = Sequential()
@@ -42,13 +38,14 @@ def img_cate(filename):
     top_model.add(Dense(4, activation='softmax'))
 
     model = Model(inputs=base_model.input, outputs=top_model(base_model.output))
-    model.load_weights('./ResNet_trainAll.h5')
+    model.load_weights('./ResNet_trainAll_May.h5')
+    print('Model loaded.')
 
     # test on validation
     img_path = str('./uploadFile/') + str(filename)
+    # print(img_path)
     Pic = cv2.imread(img_path)
-    Pic_regu = scipy.misc.imresize(Pic,[img_height,img_height,3])
-    # print(np.array([Pic_regu]).shape)
+    Pic_regu = scipy.misc.imresize(Pic,[img_width,img_height,3]) / 255
     FC_predict = model.predict(np.array([Pic_regu]))
     print('\n')
     print('Prediction:')
